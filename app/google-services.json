@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "364950115228",
+    "firebase_url": "https://bjbhcnews-860ec.firebaseio.com",
+    "project_id": "bjbhcnews-860ec",
+    "storage_bucket": "bjbhcnews-860ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364950115228:android:985283f466f95286",
+        "android_client_info": {
+          "package_name": "com.lumiere.user.magazineapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364950115228-cr700nfnokttift0k09brvpo7ju6ac11.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnbhHJPVg-DXHsaN7P6UgimhSunZqfdSc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

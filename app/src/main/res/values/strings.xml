@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">bjb HC News</string>
+    <string name="register_page">Registration</string>
+    <string name="login_page">Login</string>
+    <string name="content_page">Content</string>
+    <string name="title_activity_artikel">ArtikelActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="syarat_email">*E-mail akan digunakan sebagai ID pada saat Login</string>
+    <string name="syarat_password">*Kata sandi harus memiliki 8 karakter atau lebih, Huruf besar dan kecil, dan setidaknya 1(satu) angka</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
+    <string name="lupa_password">*Kata sandi yang telah disetel ulang akan dikirimkan ke alamat e-mail yang telah didaftarkan</string>
+    <string name="username">*Username harus memiliki 5 karakt5er atau lebih</string>
+    <string name="num_verifikasi">*isi sesuai angka yang tertera</string>
+</resources>

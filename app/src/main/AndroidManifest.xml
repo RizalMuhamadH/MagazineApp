@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lumiere.user.magazineapp">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_logo_hc_news"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_logo_hc_news_circle"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <uses-permission android:name="android.permission.INTERNET" />
+
+        <!-- Respone Page -->
+        <activity
+            android:name=".Activity.LoginActivity"
+            android:label="@string/app_name">
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Splash Screen Page -->
+        <activity android:name=".Activity.SplashScreenActivity" />
+
+        <!-- Registration Page -->
+        <activity
+            android:name=".Activity.RegistrationActivity"
+            android:label="@string/register_page" />
+
+        <!-- Content Page -->
+        <activity android:name=".Activity.ContentActivity" />
+
+        <!-- Cover Page -->
+        <activity android:name=".Activity.CoverMagazineActivity" />
+
+        <!-- Artikel Page -->
+        <activity
+            android:name=".Activity.ArtikelActivity"
+            android:label="@string/title_activity_artikel"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- Forgot Password page -->
+        <activity android:name=".Activity.ForgotPasswordActivity" />
+
+        <!-- Profile Page -->
+        <activity android:name=".Activity.ProfileActivity" />
+
+        <!-- Push Notification Received -->
+        <service android:name=".Firebase.NotificationFirebaseMessageService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- ID Service Firebase -->
+        <service android:name=".Firebase.FirebaseIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- Announcement Page -->
+        <activity android:name=".Activity.AnnouncementActivity" />
+        <activity android:name=".Activity.DetailAnnounActivity"></activity>
+    </application>
+
+</manifest>
