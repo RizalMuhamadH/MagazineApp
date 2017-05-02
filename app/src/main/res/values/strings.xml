@@ -14,6 +14,6 @@
 
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
     <string name="lupa_password">*Kata sandi yang telah disetel ulang akan dikirimkan ke alamat e-mail yang telah didaftarkan</string>
-    <string name="username">*Username harus memiliki 5 karakt5er atau lebih</string>
+    <string name="username">*Username harus memiliki 5 karakter atau lebih</string>
     <string name="num_verifikasi">*isi sesuai angka yang tertera</string>
 </resources>

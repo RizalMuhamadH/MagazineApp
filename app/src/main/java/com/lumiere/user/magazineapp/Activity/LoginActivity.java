@@ -29,6 +29,9 @@ import com.lumiere.user.magazineapp.R;
 import com.lumiere.user.magazineapp.Utility.SessionManager;
 import com.lumiere.user.magazineapp.Utility.TypefaceUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -38,6 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    final static String TAG = "Login Page";
     private EditText username;
     private EditText password;
 
@@ -45,15 +49,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private TextView register;
     private TextView forgotPassword;
-    private TextView textViewUsername;
-    private TextView textViewPassword;
-    private TextView textViewAkun;
-
-    private CheckBox checkBoxMasuk;
 
     private Intent intent;
 
-    private String status = "succes";
+    private String status = "success";
 
     private SessionManager manager;
 
@@ -71,11 +70,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         register = (TextView) findViewById(R.id.txt_register);
         forgotPassword = (TextView) findViewById(R.id.forgot_password);
-        textViewUsername = (TextView)findViewById(R.id.text_view_username);
-        textViewPassword = (TextView)findViewById(R.id.text_view_password);
-        textViewAkun = (TextView)findViewById(R.id.text_view_akun);
-
-        checkBoxMasuk = (CheckBox)findViewById(R.id.check_box_masuk);
 
         manager = new SessionManager(getApplicationContext());
 
@@ -83,18 +77,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         register.setOnClickListener(this);
         forgotPassword.setOnClickListener(this);
 
-//        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/Roboto-Regular.ttf");
-//        Typeface custom_font_bold = Typeface.createFromAsset(getAssets(),  "fonts/Roboto-Bold.ttf");
-//
-//        username.setTypeface(custom_font);
-//        password.setTypeface(custom_font);
-//        login.setTypeface(custom_font_bold);
-//        register.setTypeface(custom_font);
-//        forgotPassword.setTypeface(custom_font);
-//        textViewUsername.setTypeface(custom_font_bold);
-//        textViewPassword.setTypeface(custom_font_bold);
-//        textViewAkun.setTypeface(custom_font);
-//        checkBoxMasuk.setTypeface(custom_font);
     }
     private void userSignin(){
         final String tmpUsername = username.getText().toString().trim();
@@ -103,10 +85,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         users.setUsername(tmpUsername);
         users.setPassword(tmpPassword);
 
-        StringRequest request = new StringRequest(Request.Method.POST, "http://10.0.2.2/API/index.php",
+        StringRequest request = new StringRequest(Request.Method.POST, "http://mobs.ayobandung.com/index.php/user_login",
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            status = jsonObject.getString("status");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         Log.e("Respone",response);
                     }
                 },
@@ -142,14 +131,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //            }
 //        });
 
-//        if (status == "succes"){
-//            manager.createUserLoginSession(tmpUsername,tmpPassword);
-//            intent = new Intent(LoginActivity.this,ContentActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }else{
-//            Toast.makeText(this, "E-mail & password failed", Toast.LENGTH_SHORT).show();
-//        }
+        if (status == "success"){
+            manager.createUserLoginSession(tmpUsername,tmpPassword);
+            intent = new Intent(LoginActivity.this,ContentActivity.class);
+            startActivity(intent);
+            finish();
+        }else{
+            Toast.makeText(this, "E-mail atau kata sandi salah", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -170,12 +159,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onResume() {
-        if (manager.userLoginSession()){
-            intent = new Intent(LoginActivity.this,ContentActivity.class);
-            startActivity(intent);
-            finish();
+        try {
+            if (manager.userLoginSession()){
+                intent = new Intent(LoginActivity.this,ContentActivity.class);
+                startActivity(intent);
+                finish();
+
+            }
+            super.onResume();
+        }catch (Exception e){
+            Log.e(TAG,e.getMessage());
         }
-        super.onResume();
+
+
     }
 
     @Override

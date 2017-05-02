@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <uses-permission android:name="android.permission.INTERNET" />
-
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+        <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
         <!-- Respone Page -->
         <activity
             android:name=".Activity.LoginActivity"
@@ -64,7 +65,13 @@
 
         <!-- Announcement Page -->
         <activity android:name=".Activity.AnnouncementActivity" />
-        <activity android:name=".Activity.DetailAnnounActivity"></activity>
+        <activity android:name=".Activity.DetailAnnounActivity" />
+
+        <activity android:name=".Activity.ContentNewsActivity" />
+
+        <!--image Viewer-->
+        <activity android:name=".Activity.ImageViewerActivity"
+            android:theme="@style/ImageViewerTheme"></activity>
     </application>
 
 </manifest>

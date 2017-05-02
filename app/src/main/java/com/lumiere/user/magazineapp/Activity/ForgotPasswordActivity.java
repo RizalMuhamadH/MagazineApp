@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.lumiere.user.magazineapp.R;
@@ -14,6 +15,7 @@ import java.util.Random;
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private TextView numRandom;
+    private Button btnForgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +24,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         numRandom = (TextView)findViewById(R.id.num_random);
+        btnForgotPassword = (Button)findViewById(R.id.btn_forgot_password);
 
-        Random random = new Random();
-        numRandom.setText(String.valueOf(random.nextInt(9999)));
+        codeVerification();
     }
 
     @Override
@@ -32,5 +34,15 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         TypefaceUtil fontChanger = new TypefaceUtil(getAssets(),"fonts/Roboto-Regular.ttf");
         fontChanger.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
         super.setContentView(view);
+    }
+    private void codeVerification(){
+        Random random = new Random();
+        int digit = random.nextInt(9999);
+
+        if (String.valueOf(digit).length() == 4){
+            numRandom.setText(String.valueOf(digit));
+        }else {
+            codeVerification();
+        }
     }
 }

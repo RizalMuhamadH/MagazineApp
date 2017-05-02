@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lumiere.user.magazineapp.Model.Edition;
 import com.lumiere.user.magazineapp.R;
 import com.lumiere.user.magazineapp.Utility.TypefaceUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -18,10 +21,10 @@ import java.util.ArrayList;
 
 public class ContentAdapter extends BaseAdapter {
 
-    private ArrayList<String> list = new ArrayList<>();
+    private ArrayList<Edition> list = new ArrayList<>();
     private Context context;
 
-    public ContentAdapter(ArrayList<String> list, Context context) {
+    public ContentAdapter(ArrayList<Edition> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -48,7 +51,16 @@ public class ContentAdapter extends BaseAdapter {
         View v = inflater.inflate(R.layout.content_layout,parent,false);
         fontChanger.replaceFonts((ViewGroup)v);
         TextView text = (TextView)v.findViewById(R.id.txt_content);
-        text.setText(list.get(position));
+        ImageView img = (ImageView)v.findViewById(R.id.img_content);
+        TextView date = (TextView)v.findViewById(R.id.txt_tanggal);
+        text.setText(list.get(position).getEditionMagazin());
+        date.setText(list.get(position).getDate());
+
+        String url = list.get(position).getUrl();
+        Picasso.with(context)
+                .load(url)
+                .fit()
+                .into(img);
         return v;
     }
 }

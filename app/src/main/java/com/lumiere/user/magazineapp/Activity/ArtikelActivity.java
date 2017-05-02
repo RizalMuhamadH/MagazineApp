@@ -1,10 +1,8 @@
 package com.lumiere.user.magazineapp.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.lumiere.user.magazineapp.R;
 import com.lumiere.user.magazineapp.Utility.SessionManager;
@@ -24,6 +25,15 @@ public class ArtikelActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Intent intent;
     private SessionManager manager;
+
+    private WebView webView;
+
+
+    private String body = "<p class=\"title\">Dedikasi bank bjb Menjaga Kesehatan Karyawan</p><p class=\"quotes\"> \"Kami berusaha melakukan edukasi mengenai pola hidup sehat. Itu harus menjadi gaya hidupnya orang bank bjb,\" -Dadan Yonanda, Kepala Divisi Human Capital bank bjb</p><p> \"Kami berusaha melakukan edukasi mengenai pola hidup sehat. Itu harus menjadi gaya hidupnya orang bank bjb,\" -Dadan Yonanda, Kepala Divisi Human Capital bank bjb</p><div><img src=\"http://mobs.ayobandung.com/assets/1.jpg\" /></div><p class=\"caption\">Seminar human capital care “Pola Hidup Bersih dan Sehat</p><p> \"Kami berusaha melakukan edukasi mengenai pola hidup sehat. Itu harus menjadi gaya hidupnya orang bank bjb,\" -Dadan Yonanda, Kepala Divisi Human Capital bank bjb</p>";
+    private String body1 = "<div class=\"gallery\"><a target=\"_self\" href=\"http://mobs.ayobandung.com/assets/1.jpg\"><img class=\"tiles\" src=\"http://mobs.ayobandung.com/assets/1.jpg\" /></a></div><div class=\"gallery\"><a target=\"_self\" href=\"http://mobs.ayobandung.com/assets/2.jpg\"><img class=\"tiles\" src=\"http://mobs.ayobandung.com/assets/2.jpg\" /></a></div><div class=\"gallery\"><a target=\"_self\" href=\"http://mobs.ayobandung.com/assets/3.jpg\"><img class=\"tiles\" src=\"http://mobs.ayobandung.com/assets/3.jpg\" /></a></div><div class=\"gallery\"><a target=\"_self\" href=\"http://mobs.ayobandung.com/assets/4.jpg\"><img class=\"tiles\" src=\"http://mobs.ayobandung.com/assets/4.jpg\" /></a></div><div class=\"gallery\"><a target=\"_self\" href=\"http://mobs.ayobandung.com/assets/5.jpg\"><img class=\"tiles\" src=\"http://mobs.ayobandung.com/assets/5.jpg\" /></a></div>";
+    private String html = "<html>";
+    private String html1 = "<html>";
+    private String html2 = "<html>";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +53,66 @@ public class ArtikelActivity extends AppCompatActivity
 
         manager = new SessionManager(getApplicationContext());
 
+        webView = (WebView)findViewById(R.id.web_view_artikel);
+
+        html += "<head>";
+        html += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
+        html += "<link href=\"https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i\" rel=\"stylesheet\">";
+        html += "<style>";
+        html += "body{font-family:'Roboto',sans-serif;font-size:100%;} p{text-align:justify;color:black;}p.quotes{font-weight:bold;color:#115B80;}p.title{font-weight:bold;color:#115B80;font-size:130%;margin-bottom:12px;text-align:left;} p.caption{font-size:70%;color:#939598;text-align:justify;margin-bottom:5px;}div,img{width:100%;}footer{margin-bottom:-10px;}";
+        html += "</style>";
+        html += "</head>";
+        html += "<body>";
+        html += body;
+//        html += "<footer><img src=\"http://mobs.ayobandung.com/assets/footer.png\" /></footer>";
+        html += "</body>";
+        html += "</html>";
+
+        html1 += "<head>";
+        html1 += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
+        html1 += "<link href=\"https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i\" rel=\"stylesheet\">";
+        html1 += "<style>";
+        html1 += "body{font-family:'Roboto',sans-serif;font-size:100%;} p{text-align:justify;color:black;}p.quotes{font-weight:bold;color:#115B80;}p.title{font-weight:bold;color:#115B80;font-size:130%;margin-bottom:12px;text-align:left;} p.caption{font-size:70%;color:#939598;text-align:justify;margin-bottom:5px;}div,img{width:100%;}div.gallery{margin: 3px;border: 1px solid #ccc;float:left;width: 90px;}div.gallery img {width: 100%;height: auto;}img.tiles{width: 200;height: 100;}";
+        html1 += "</style>";
+        html1 += "</head>";
+        html1 += "<body>";
+        html1 += body1;
+        html1 += "</body>";
+        html1 += "</html>";
+        webView.setWebViewClient(new WebViewClient(){
+            ProgressDialog progressDialog;
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                ImageViewerActivity.start(ArtikelActivity.this,url,null);
+                return true;
+            }
+            //Show loader on url load
+            public void onLoadResource (WebView view, String url) {
+                if (progressDialog == null) {
+                    // in standard case YourActivity.this
+                    progressDialog = new ProgressDialog(ArtikelActivity.this);
+                    progressDialog.setMessage("Loading...");
+                    progressDialog.show();
+                }
+            }
+            public void onPageFinished(WebView view, String url) {
+                try{
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                        progressDialog = null;
+                    }
+                }catch(Exception exception){
+                    exception.printStackTrace();
+                }
+            }
+        });
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadDataWithBaseURL(null, html1, "text/html", "utf-8", null);
+
+
+//        webView.getSettings().setJavaScriptEnabled(true);
+//
+//        webView.loadUrl("http://www.google.com");
+//        setContentView(webView);
 //        LayoutInflater inflater = getLayoutInflater();
 //        View v = inflater.inflate(R.layout.cover_layout,null,false);
     }
@@ -52,7 +122,10 @@ public class ArtikelActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if(webView.canGoBack()) {
+            webView.goBack();
         } else {
+            // Let the system handle the back button
             super.onBackPressed();
         }
     }

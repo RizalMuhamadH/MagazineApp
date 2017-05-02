@@ -1,6 +1,8 @@
 package com.lumiere.user.magazineapp.Activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +19,9 @@ import com.lumiere.user.magazineapp.Adapter.ViewPagerCoverAdapter;
 import com.lumiere.user.magazineapp.Model.CoverModel;
 import com.lumiere.user.magazineapp.R;
 import com.lumiere.user.magazineapp.Utility.TypefaceUtil;
+import com.squareup.picasso.Picasso;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 
 public class CoverMagazineActivity extends AppCompatActivity {
@@ -30,8 +34,8 @@ public class CoverMagazineActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
 
-    private Button next;
-    private Button prev;
+//    private Button next;
+//    private Button prev;
 
     Intent intent;
 
@@ -47,13 +51,14 @@ public class CoverMagazineActivity extends AppCompatActivity {
 
         viewPager = (ViewPager)findViewById(R.id.view_pager_cover);
         tabLayout = (TabLayout)findViewById(R.id.tabDots);
-        next = (Button)findViewById(R.id.btn_next);
-        prev = (Button)findViewById(R.id.btn_prev);
+//        next = (Button)findViewById(R.id.btn_next);
+//        prev = (Button)findViewById(R.id.btn_prev);
 
         coverList = new ArrayList<>();
 
-        for (int i = 0; i<5;i++){
-            cover  = new CoverModel(null,String.valueOf(i));
+        for (int i = 0; i<14;i++){
+
+            cover  = new CoverModel("http://reviewtech.info/wp-content/uploads/2015/11/apple-vs-android.jpg",String.valueOf(i));
             coverList.add(cover);
         }
 
@@ -80,29 +85,30 @@ public class CoverMagazineActivity extends AppCompatActivity {
             }
         });
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("Pager Count: ", String.valueOf(viewPager.getChildCount()));
-                viewPager.setCurrentItem(nextViewPager(1),true);
-            }
-        });
+//        next.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.e("Pager Count: ", String.valueOf(viewPager.getChildCount()));
+//                viewPager.setCurrentItem(nextViewPager(1),true);
+//            }
+//        });
+//
+//        prev.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                viewPager.setCurrentItem(prevViewPager(1),true);
+//            }
+//        });
 
-        prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setCurrentItem(prevViewPager(1),true);
-            }
-        });
     }
 
-    private int nextViewPager(int i){
-        return viewPager.getCurrentItem()+i;
-    }
-
-    private int prevViewPager(int i){
-        return viewPager.getCurrentItem()-i;
-    }
+//    private int nextViewPager(int i){
+//        return viewPager.getCurrentItem()+i;
+//    }
+//
+//    private int prevViewPager(int i){
+//        return viewPager.getCurrentItem()-i;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

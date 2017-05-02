@@ -1,32 +1,21 @@
 package com.lumiere.user.magazineapp.Activity;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.lumiere.user.magazineapp.Adapter.ContentAdapter;
+import com.lumiere.user.magazineapp.Model.Edition;
 import com.lumiere.user.magazineapp.R;
 import com.lumiere.user.magazineapp.Utility.TypefaceUtil;
 
@@ -39,20 +28,17 @@ public class ContentActivity extends AppCompatActivity {
     private ImageView profile;
     private ImageView announ;
 
-    private ArrayList<String> arrayList;
+    private ArrayList<Edition> arrayList;
 
     private BroadcastReceiver receiver;
+
+
+    private Edition edisi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
 
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,127,0)));
-//        actionBar.setTitle("Library");
-//        actionBar.setHomeAsUpIndicator(R.drawable.ic_action_person);
-//        actionBar.setDisplayShowCustomEnabled(true);
 
         getSupportActionBar().hide();
 
@@ -60,17 +46,20 @@ public class ContentActivity extends AppCompatActivity {
         announ = (ImageView)findViewById(R.id.btn_announ);
         grid = (GridView)findViewById(R.id.grid_content);
         arrayList = new ArrayList<>();
-
-        arrayList.add("1");
-        arrayList.add("2");
-        arrayList.add("3");
-        arrayList.add("4");
-        arrayList.add("5");
-        arrayList.add("6");
-        arrayList.add("7");
-        arrayList.add("8");
-        arrayList.add("9");
-        arrayList.add("10");
+        String[] img ={"http://www.wowkeren.com/images/events/ori/2011/07/20/captain-america-poster01.jpg"
+                ,"http://www.wowkeren.com/images/events/ori/2011/07/20/captain-america-poster01.jpg"
+                ,"http://www.wowkeren.com/images/events/ori/2011/07/20/captain-america-poster01.jpg"
+                ,"http://www.wowkeren.com/images/events/ori/2011/07/20/captain-america-poster01.jpg"
+                ,"http://www.wowkeren.com/images/events/ori/2011/07/20/captain-america-poster01.jpg"
+                ,"http://www.wowkeren.com/images/events/ori/2011/07/20/captain-america-poster01.jpg"
+                ,"http://www.wowkeren.com/images/events/ori/2011/07/20/captain-america-poster01.jpg"
+                ,"http://www.wowkeren.com/images/events/ori/2011/07/20/captain-america-poster01.jpg"
+                ,"http://www.wowkeren.com/images/events/ori/2011/07/20/captain-america-poster01.jpg"
+                ,"http://www.wowkeren.com/images/events/ori/2011/07/20/captain-america-poster01.jpg"};
+        for (int i=0;i<10;i++){
+            edisi = new Edition("Edisi "+String.valueOf(i),"0"+String.valueOf(i)+"-01-2017",img[i]);
+            arrayList.add(edisi);
+        }
 
         adapter = new ContentAdapter(arrayList,this);
         grid.setAdapter(adapter);
@@ -105,39 +94,39 @@ public class ContentActivity extends AppCompatActivity {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.e("onTokenRefresh: ",refreshedToken);
 
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                FirebaseMessaging.getInstance().subscribeToTopic("global");
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("firebase", 0);
-                String refreshedToken = pref.getString("regID", null);
-                Log.e("FCM: ", refreshedToken);
-            }
-        };
+//        receiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                FirebaseMessaging.getInstance().subscribeToTopic("global");
+//                SharedPreferences pref = getApplicationContext().getSharedPreferences("firebase", 0);
+//                String refreshedToken = pref.getString("regID", null);
+//                Log.e("FCM: ", refreshedToken);
+//            }
+//        };
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver,new IntentFilter("registrationComplete"));
-    }
-
-    @Override
-    protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
-        super.onPause();
-    }
-    //    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()){
-//            case android.R.id.home :
-//                Intent intent = new Intent(ContentActivity.this,ProfileActivity.class);
-//                startActivity(intent);
-//                finish();
-//                return true;
-//            default: return super.onOptionsItemSelected(item);
-//        }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        LocalBroadcastManager.getInstance(this).registerReceiver(receiver,new IntentFilter("registrationComplete"));
 //    }
+//
+//    @Override
+//    protected void onPause() {
+//        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+//        super.onPause();
+//    }
+        @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home :
+                Intent intent = new Intent(ContentActivity.this,ProfileActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            default: return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public void setContentView(View view) {

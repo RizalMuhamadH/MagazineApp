@@ -15,4 +15,5 @@
     <color name="yellow">#EAC044</color>
     <color name="orange">#FF9800</color>
     <color name="black">#000000</color>
+    <color name="bg_image_viewer">#ee000000</color>
 </resources>

@@ -7,17 +7,29 @@ import android.graphics.Bitmap;
  */
 
 public class CoverModel {
-    private Bitmap bitmap;
+//    private Bitmap bitmap;
+
+    private String url;
     private String text;
 
-    public CoverModel(Bitmap bitmap, String text) {
-        this.bitmap = bitmap;
+
+    public CoverModel(String url, String text) {
+        this.url = url;
         this.text = text;
     }
 
-    public Bitmap getBitmap() {
-        return bitmap;
+//    public CoverModel(Bitmap bitmap, String text) {
+//        this.bitmap = bitmap;
+//        this.text = text;
+//    }
+
+    public String getUrl() {
+        return url;
     }
+
+//    public Bitmap getBitmap() {
+//        return bitmap;
+//    }
 
     public String getText() {
         return text;

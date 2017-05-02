@@ -7,27 +7,45 @@
             android:title="home" />
         <item
             android:id="@+id/nav_1"
-            android:title="1" />
+            android:title="Pengantar Direksi" />
         <item
             android:id="@+id/nav_2"
-            android:title="2" />
+            android:title="Pengantar Redaksi" />
         <item
             android:id="@+id/nav_3"
-            android:title="3" />
+            android:title="HC News" />
         <item
             android:id="@+id/nav_4"
-            android:title="4" />
+            android:title="Info Kepatuhan" />
+        <item
+            android:id="@+id/nav_5"
+            android:title="Info Diklat" />
+        <item
+            android:id="@+id/nav_6"
+            android:title="Info Manajemen Resiko" />
+        <item
+            android:id="@+id/nav_7"
+            android:title="BJB University" />
+        <item
+            android:id="@+id/nav_8"
+            android:title="BJB Club" />
+        <item
+            android:id="@+id/nav_9"
+            android:title="Profile Management" />
+        <item
+            android:id="@+id/nav_10"
+            android:title="Profile Best Employee" />
+        <item
+            android:id="@+id/nav_11"
+            android:title="Kiat" />
+        <item
+            android:id="@+id/nav_12"
+            android:title="Motivasi Tune Up" />
+        <item
+            android:id="@+id/nav_13"
+            android:title="Galeri Foto" />
+        <item
+            android:id="@+id/nav_14"
+            android:title="Letter From BOD" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_5"
-                android:title="5" />
-            <item
-                android:id="@+id/nav_6"
-                android:title="6" />
-        </menu>
-    </item>
-
 </menu>
