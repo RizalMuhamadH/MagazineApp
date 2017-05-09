@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -27,6 +28,8 @@ public class ArtikelActivity extends AppCompatActivity
     private SessionManager manager;
 
     private WebView webView;
+
+    private NavigationView navigationView;
 
 
     private String body = "<p class=\"title\">Dedikasi bank bjb Menjaga Kesehatan Karyawan</p><p class=\"quotes\"> \"Kami berusaha melakukan edukasi mengenai pola hidup sehat. Itu harus menjadi gaya hidupnya orang bank bjb,\" -Dadan Yonanda, Kepala Divisi Human Capital bank bjb</p><p> \"Kami berusaha melakukan edukasi mengenai pola hidup sehat. Itu harus menjadi gaya hidupnya orang bank bjb,\" -Dadan Yonanda, Kepala Divisi Human Capital bank bjb</p><div><img src=\"http://mobs.ayobandung.com/assets/1.jpg\" /></div><p class=\"caption\">Seminar human capital care “Pola Hidup Bersih dan Sehat</p><p> \"Kami berusaha melakukan edukasi mengenai pola hidup sehat. Itu harus menjadi gaya hidupnya orang bank bjb,\" -Dadan Yonanda, Kepala Divisi Human Capital bank bjb</p>";
@@ -48,7 +51,7 @@ public class ArtikelActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         manager = new SessionManager(getApplicationContext());
@@ -64,6 +67,10 @@ public class ArtikelActivity extends AppCompatActivity
         html += "</head>";
         html += "<body>";
         html += body;
+        html += "<object width=\"420\" height=\"315\"\n" +
+                "data=\"https://www.youtube.com/embed/XGSy3_Czz8k\">\n" +
+                "</object>";
+//        html += "<video src=\"https://www.youtube.com/embed/fizg7T_SdrU\" width=\"170\" height=\"85\" controls></video>";
 //        html += "<footer><img src=\"http://mobs.ayobandung.com/assets/footer.png\" /></footer>";
         html += "</body>";
         html += "</html>";
@@ -82,7 +89,9 @@ public class ArtikelActivity extends AppCompatActivity
         webView.setWebViewClient(new WebViewClient(){
             ProgressDialog progressDialog;
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                ImageViewerActivity.start(ArtikelActivity.this,url,null);
+                if (url.endsWith(".jpg") || url.endsWith(".JPG") || url.endsWith(".png") || url.endsWith(".PNG")){
+                    ImageViewerActivity.start(ArtikelActivity.this,url,null);
+                }
                 return true;
             }
             //Show loader on url load
@@ -106,7 +115,15 @@ public class ArtikelActivity extends AppCompatActivity
             }
         });
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadDataWithBaseURL(null, html1, "text/html", "utf-8", null);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        webView.getSettings().setAllowFileAccessFromFileURLs(true);
+//        webView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
+        webView.loadData(html, "text/html", "utf-8");
+
+        hideItem();
+
 
 
 //        webView.getSettings().setJavaScriptEnabled(true);
@@ -127,6 +144,7 @@ public class ArtikelActivity extends AppCompatActivity
         } else {
             // Let the system handle the back button
             super.onBackPressed();
+            finish();
         }
     }
 
@@ -134,6 +152,8 @@ public class ArtikelActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.artikel, menu);
+//        MenuItem item = menu.findItem(R.id.nav_14);
+//        item.setVisible(false);
         return true;
     }
 
@@ -169,8 +189,8 @@ public class ArtikelActivity extends AppCompatActivity
                 startActivity(intent);
                 finish();
                 break;
-            case R.id.nav_1 :
-                break;
+//            case R.id.nav_1 :
+//                break;
             case R.id.nav_2 :
                 break;
             case R.id.nav_3 :
@@ -181,6 +201,21 @@ public class ArtikelActivity extends AppCompatActivity
                 break;
             case R.id.nav_6 :
                 break;
+            case R.id.nav_7 :
+                break;
+            case R.id.nav_8 :
+                break;
+            case R.id.nav_9 :
+                break;
+            case R.id.nav_10 :
+                break;
+            case R.id.nav_11 :
+                break;
+            case R.id.nav_12 :
+                break;
+            case R.id.nav_13 :
+                break;
+            case R.id.nav_14 :
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -193,5 +228,10 @@ public class ArtikelActivity extends AppCompatActivity
         TypefaceUtil fontChanger = new TypefaceUtil(getAssets(),"fonts/Roboto-Regular.ttf");
         fontChanger.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
         super.setContentView(view);
+    }
+    private void hideItem(){
+//        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.nav_14).setVisible(false);
     }
 }

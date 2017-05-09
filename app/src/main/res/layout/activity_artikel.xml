@@ -20,5 +20,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:menu="@menu/activity_artikel_drawer">
+        <TextView
+            android:id="@+id/testCoba"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

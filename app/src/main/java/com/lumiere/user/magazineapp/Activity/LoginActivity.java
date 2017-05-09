@@ -1,8 +1,10 @@
 package com.lumiere.user.magazineapp.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,11 +53,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView register;
     private TextView forgotPassword;
 
+    private RelativeLayout layout;
+
+    private Snackbar snackbar;
+
     private Intent intent;
 
     private String status = "success";
 
+    private String msg = "Login gagal";
+
     private SessionManager manager;
+
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +82,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         register = (TextView) findViewById(R.id.txt_register);
         forgotPassword = (TextView) findViewById(R.id.forgot_password);
 
+        layout = (RelativeLayout)findViewById(R.id.layout_login);
+
         manager = new SessionManager(getApplicationContext());
 
         login.setOnClickListener(this);
@@ -85,24 +98,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         users.setUsername(tmpUsername);
         users.setPassword(tmpPassword);
 
-        StringRequest request = new StringRequest(Request.Method.POST, "http://mobs.ayobandung.com/index.php/user_login",
+//        dialog = new ProgressDialog(this);
+//        dialog.setMessage("Proses...");
+//        dialog.setCancelable(false);
+//        dialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST, "http://10.0.2.2/CodeIgniter-2.2.6/user_controller/userLogin",
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
+                            Log.e(TAG, response);
 
                             status = jsonObject.getString("status");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         Log.e("Respone",response);
+//                        dialog.dismiss();
                     }
+
                 },
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Respone",error.toString());
+//                        dialog.dismiss();
+                        snackbar = Snackbar.make(layout,"Connection failed",Snackbar.LENGTH_LONG);
+                        snackbar.show();
+//                        Log.e("Respone",error.toString());
                     }
                 }){
             @Override
@@ -137,7 +160,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(intent);
             finish();
         }else{
-            Toast.makeText(this, "E-mail atau kata sandi salah", Toast.LENGTH_SHORT).show();
+            snackbar = Snackbar.make(layout,msg,Snackbar.LENGTH_LONG);
+            snackbar.show();
+//            Toast.makeText(this, "E-mail atau kata sandi salah", Toast.LENGTH_SHORT).show();
         }
     }
 

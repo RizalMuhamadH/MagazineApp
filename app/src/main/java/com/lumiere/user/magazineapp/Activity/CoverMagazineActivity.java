@@ -3,6 +3,7 @@ package com.lumiere.user.magazineapp.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,19 +13,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.lumiere.user.magazineapp.Adapter.ViewPagerCoverAdapter;
 import com.lumiere.user.magazineapp.Model.CoverModel;
 import com.lumiere.user.magazineapp.R;
 import com.lumiere.user.magazineapp.Utility.TypefaceUtil;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.annotation.Target;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CoverMagazineActivity extends AppCompatActivity {
+    private static String TAG = "Cover Magazine Page";
 
     private ArrayList<CoverModel> coverList;
     private CoverModel cover;
@@ -33,11 +47,14 @@ public class CoverMagazineActivity extends AppCompatActivity {
     private ViewPagerCoverAdapter adapter;
 
     private TabLayout tabLayout;
+    private FrameLayout layout;
+
+    private Snackbar snackbar;
 
 //    private Button next;
 //    private Button prev;
 
-    Intent intent;
+    private Intent intent;
 
 
     @Override
@@ -51,6 +68,8 @@ public class CoverMagazineActivity extends AppCompatActivity {
 
         viewPager = (ViewPager)findViewById(R.id.view_pager_cover);
         tabLayout = (TabLayout)findViewById(R.id.tabDots);
+
+        layout = (FrameLayout)findViewById(R.id.layout_cover);
 //        next = (Button)findViewById(R.id.btn_next);
 //        prev = (Button)findViewById(R.id.btn_prev);
 
@@ -135,5 +154,48 @@ public class CoverMagazineActivity extends AppCompatActivity {
         TypefaceUtil fontChanger = new TypefaceUtil(getAssets(),"fonts/Roboto-Regular.ttf");
         fontChanger.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
         super.setContentView(view);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
+    private void getCoverMagazine(final String id){
+        StringRequest request = new StringRequest(Request.Method.POST, "http://mobs.ayobandung.com/index.php/user_registration",
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            Log.e(TAG + " Respone",jsonObject.toString());
+
+//                            status = jsonObject.getString("status");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.e(TAG + " Respone",response);
+//                        dialog.dismiss();
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                        dialog.dismiss();
+//                        Log.e(TAG + " Error",error.toString());
+                        snackbar = Snackbar.make(layout,"Connection failed",Snackbar.LENGTH_SHORT);
+                        snackbar.show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> param = new HashMap<>();
+                param.put("id_edition",id);
+                return param;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
     }
 }

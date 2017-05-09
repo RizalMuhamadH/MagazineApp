@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rsz_11background"
+    android:id="@+id/layout_register"
     tools:context="com.lumiere.user.magazineapp.Activity.RegistrationActivity">
     <ScrollView
         android:layout_width="match_parent"
@@ -134,19 +135,19 @@
                 android:layout_height="30dp"
                 android:layout_marginBottom="30dp"/>
 
-            <CheckBox
-                android:textColor="@color/white"
-                android:id="@+id/checkBox2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Syarat" />
+            <!--<CheckBox-->
+                <!--android:textColor="@color/white"-->
+                <!--android:id="@+id/checkBox2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Syarat" />-->
 
-            <CheckBox
-                android:textColor="@color/white"
-                android:id="@+id/checkBox3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ketentuan" />
+            <!--<CheckBox-->
+                <!--android:textColor="@color/white"-->
+                <!--android:id="@+id/checkBox3"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Ketentuan" />-->
 
             <Button
                 android:textStyle="bold"

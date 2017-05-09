@@ -7,11 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -21,23 +18,18 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.lumiere.user.magazineapp.R;
 import com.lumiere.user.magazineapp.Utility.SessionManager;
-import com.lumiere.user.magazineapp.Utility.TypefaceUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
-public class ForgotPasswordActivity extends AppCompatActivity {
-    private static String TAG = "Forgot Password Page";
+public class PasswordActivity extends AppCompatActivity {
+    private static String TAG = "Password Page";
+    private LinearLayout layout;
 
-    private TextView numRandom;
-    private EditText txtRandom;
-    private Button btnForgotPassword;
-
-    private RelativeLayout layout;
+    private Button password;
 
     private Snackbar snackbar;
 
@@ -48,64 +40,34 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forgot_password);
+        setContentView(R.layout.activity_password);
         getSupportActionBar().hide();
-
-        numRandom = (TextView)findViewById(R.id.num_random);
-
-        txtRandom = (EditText)findViewById(R.id.txt_num_random);
-
-        btnForgotPassword = (Button)findViewById(R.id.btn_forgot_password);
-
-        layout = (RelativeLayout)findViewById(R.id.layout_forgot_password);
 
         manager = new SessionManager(getApplicationContext());
 
+        username = manager.getUsername();
 
-        btnForgotPassword.setOnClickListener(new View.OnClickListener() {
+        layout = (LinearLayout)findViewById(R.id.layout_password);
+
+        password = (Button)findViewById(R.id.btn_password);
+
+        password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                username = manager.getUsername();
-                String xCode = numRandom.getText().toString();
-                String yCode = txtRandom.getText().toString();
-                if (xCode.equals(yCode)){
 
-                }else {
-                    snackbar = Snackbar.make(layout,"Code tidak cocok",Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
             }
         });
-        codeVerification();
     }
-
-    @Override
-    public void setContentView(View view) {
-        TypefaceUtil fontChanger = new TypefaceUtil(getAssets(),"fonts/Roboto-Regular.ttf");
-        fontChanger.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
-        super.setContentView(view);
-    }
-    private void codeVerification(){
-        Random random = new Random();
-        int digit = random.nextInt(9999);
-
-        if (String.valueOf(digit).length() == 4){
-            numRandom.setText(String.valueOf(digit));
-        }else {
-            codeVerification();
-        }
-    }
-
-    private void resetPassword(final String email){
+    private void changePassword(final String username, final String password){
         StringRequest request = new StringRequest(Request.Method.POST, "http://mobs.ayobandung.com/index.php/user_registration",
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-
                             Log.e(TAG + " Respone",jsonObject.toString());
-
+                            snackbar = Snackbar.make(layout,"Berhasil ubah nama",Snackbar.LENGTH_SHORT);
+                            snackbar.show();
 //                            status = jsonObject.getString("status");
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -126,12 +88,19 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> param = new HashMap<>();
-                param.put("email",email);
+                param.put("password",password);
+                param.put("username",username);
                 return param;
             }
         };
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(request);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
     private void alertDialog(String message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -143,11 +112,5 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         dialog.cancel();
                     }
                 });
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 }

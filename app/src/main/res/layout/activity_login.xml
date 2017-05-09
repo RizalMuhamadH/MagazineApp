@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rsz_11background"
+    android:id="@+id/layout_login"
     tools:context="com.lumiere.user.magazineapp.Activity.LoginActivity">
 
     <LinearLayout

@@ -2,6 +2,7 @@ package com.lumiere.user.magazineapp.Utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.design.widget.Snackbar;
 
 /**
  * Created by user on 04/12/2017.
@@ -14,7 +15,6 @@ public class SessionManager {
     Context context;
 
     int PRIVATE_MODE = 0;
-
 
     public static final String PREFERENCE_NAME = "session";
 
@@ -50,5 +50,9 @@ public class SessionManager {
     public void logoutUserSession(){
         editor.clear();
         editor.commit();
+    }
+    public String getUsername(){
+        String username = pref.getString(KEY_USERNAME,"");
+        return username;
     }
 }
